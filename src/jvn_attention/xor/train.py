@@ -1,23 +1,23 @@
 import torch
-import torch.nn as nn
 import pytorch_lightning as pl
 import numpy as np
 
 from jvn_attention.xor import model, data
 
-model = model.XORModel()
 
 def train():
+    xor_model = model.XORModel()
+
     x = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
     y = np.array([[0], [1], [1], [0]])
     dataset = data.XORDataset(x,y)
 
-    trainer = pl.Trainer(max_epochs=10, fast_dev_run=True)
+    trainer = pl.Trainer(max_epochs=100, fast_dev_run=False)
 
-    trainer.fit(model, dataset)
+    trainer.fit(xor_model, dataset)
 
     # Get the model's state dictionary
-    state_dict = model.state_dict()
+    state_dict = xor_model.state_dict()
 
     # Print the weights of the first linear layer
     print(state_dict['fc1.weight'])
@@ -27,18 +27,16 @@ def train():
     print(state_dict['fc2.weight'])
     print(state_dict['fc2.bias'])
 
-def inference():
-    # Set the model in evaluation mode
-    model.eval()
+    return xor_model
 
-    # Create some input data
-    input_data = torch.Tensor([[0, 1]])
 
-    # Run inference on the input data
-    output = model(input_data)
+def save(xor_model):
+    torch.save(xor_model.state_dict(), 'xor_model.pth')
 
-    # Print the output
-    print(output)
 
-train()
-inference()
+def main():
+    xor_model = train()
+    save(xor_model)
+
+if __name__ == "__main__":
+    SystemExit(main())

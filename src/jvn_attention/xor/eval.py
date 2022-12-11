@@ -4,7 +4,9 @@ import numpy as np
 
 from jvn_attention.xor import model
 
+
 def eval(xor_model):
+    # Add real evaluation in here.
     # Set the model in evaluation mode
     xor_model.eval()
 
@@ -31,6 +33,7 @@ def load():
 def main():
     xor_model = load()
     eval(xor_model)
+
 
 if __name__ == "__main__":
     SystemExit(main())

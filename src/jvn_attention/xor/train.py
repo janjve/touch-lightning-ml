@@ -10,7 +10,7 @@ def train():
 
     x = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
     y = np.array([[0], [1], [1], [0]])
-    dataset = data.XORDataset(x,y)
+    dataset = data.XORDataset(x, y)
 
     trainer = pl.Trainer(max_epochs=100, fast_dev_run=False)
 
@@ -27,6 +27,9 @@ def train():
     print(state_dict['fc2.weight'])
     print(state_dict['fc2.bias'])
 
+    # Print the weights of the third linear layer
+    print(state_dict['fc3.weight'])
+    print(state_dict['fc3.bias'])
     return xor_model
 
 
@@ -37,6 +40,7 @@ def save(xor_model):
 def main():
     xor_model = train()
     save(xor_model)
+
 
 if __name__ == "__main__":
     SystemExit(main())
